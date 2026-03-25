@@ -1,0 +1,107 @@
+[
+  {
+    "id": 1,
+    "name": "Alice Smith",
+    "amount": 5000,
+    "status": "active",
+    "city": "New York"
+  },
+  {
+    "id": 2,
+    "name": "Bob Johnson",
+    "amount": 1500,
+    "status": "paid",
+    "city": "Los Angeles"
+  },
+  {
+    "id": 3,
+    "name": "Charlie Davis",
+    "amount": 12000,
+    "status": "pending",
+    "city": "Chicago"
+  },
+  {
+    "id": 4,
+    "name": "Diana Prince",
+    "amount": 8500,
+    "status": "active",
+    "city": "Houston"
+  },
+  {
+    "id": 5,
+    "name": "Ethan Hunt",
+    "amount": 300,
+    "status": "paid",
+    "city": "Phoenix"
+  },
+  {
+    "id": 6,
+    "name": "Fiona Gallagher",
+    "amount": 4200,
+    "status": "active",
+    "city": "Philadelphia"
+  },
+  {
+    "id": 7,
+    "name": "George Miller",
+    "amount": 25000,
+    "status": "pending",
+    "city": "San Antonio"
+  },
+  {
+    "id": 8,
+    "name": "Hannah Abbott",
+    "amount": 1100,
+    "status": "paid",
+    "city": "San Diego"
+  },
+  {
+    "id": 9,
+    "name": "Ian Malcolm",
+    "amount": 6700,
+    "status": "active",
+    "city": "Dallas"
+  },
+  {
+    "id": 10,
+    "name": "Julia Roberts",
+    "amount": 5400,
+    "status": "pending",
+    "city": "San Jose"
+  },
+  {
+    "id": 11,
+    "name": "Kevin Hart",
+    "amount": 900,
+    "status": "active",
+    "city": "Austin"
+  },
+  {
+    "id": 12,
+    "name": "Laura Palmer",
+    "amount": 3400,
+    "status": "paid",
+    "city": "Seattle"
+  },
+  {
+    "id": 13,
+    "name": "Michael Scott",
+    "amount": 15000,
+    "status": "active",
+    "city": "Denver"
+  },
+  {
+    "id": 14,
+    "name": "Nina Simone",
+    "amount": 2200,
+    "status": "pending",
+    "city": "Boston"
+  },
+  {
+    "id": 15,
+    "name": "Oscar Martinez",
+    "amount": 7800,
+    "status": "active",
+    "city": "El Paso"
+  }
+]
