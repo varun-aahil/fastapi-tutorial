@@ -1,7 +1,7 @@
 from fastapi import FastAPI, Path, HTTPException, Query
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel, Field
-from typing import Annotated
+from typing import Annotated, Optional
 import json
 app = FastAPI()
 
@@ -11,6 +11,14 @@ class Customer (BaseModel):
     amount : Annotated[int,Field(...,description='Total Loan Amount',gt=0)]
     status : Annotated[str,Field(...,description='Status of the loan')]
     city : Annotated[str,Field(...,description='City of the customer')]
+
+
+class Customer_update(BaseModel):
+    name : Annotated[Optional[str],Field(default=None,description='Name of the customer', min_length=5)]
+    amount : Annotated[Optional[int],Field(default=None,description='Total Loan Amount',gt=0)]
+    status : Annotated[Optional[str],Field(default=None,description='Status of the loan')]
+    city : Annotated[Optional[str],Field(default=None,description='City of the customer')]
+
 
 def getData():
     with open('test.json', 'r') as f:
@@ -77,3 +85,48 @@ def create_customer(customer : Customer):
     saveData(data)
 
     return JSONResponse(status_code=201,content={'message':'Customer created Successfully'})
+
+@app.put('/edit/{customer_id}')
+def update_customer(customer_id : int, customer_update : Customer_update):
+    data = getData()
+    if not any (item['id'] == customer_id for item in data):
+        raise HTTPException(status_code=404, detail='customer does not exist')
+    
+    target_idx = None
+    for idx, customer in enumerate(data):
+        if customer['id'] == customer_id :
+            target_idx = idx
+            break
+    existing_customer_info = data[target_idx]
+
+    updated_customer_info = customer_update.model_dump(exclude_unset=True)
+
+    for key, value in updated_customer_info.items():
+        existing_customer_info[key] = value
+
+    existing_customer_info['id'] = customer_id
+    customer_pydantic_obj = Customer(**existing_customer_info)
+
+    existing_customer_info = customer_pydantic_obj.model_dump()
+
+    data[target_idx] = existing_customer_info
+
+    saveData(data)
+
+    return JSONResponse(status_code=200,content={'message' : 'customer updated'})
+
+@app.delete('/delete/{customer_id}')
+def delete_customer(customer_id : int):
+    data = getData()
+    if not any(item['id'] == customer_id for item in data):
+        raise HTTPException(status_code=404, detail='Customer does not exist')
+    
+    target_idx = None
+    for idx,customer in enumerate(data):
+        if customer['id'] == customer_id:
+            target_idx = idx
+            break
+
+    del data[target_idx]
+    saveData(data)
+    return JSONResponse(status_code=200, content={'message' : 'Customer deleted successfully'})
