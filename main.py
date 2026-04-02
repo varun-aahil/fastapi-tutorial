@@ -1,10 +1,25 @@
 from fastapi import FastAPI, Path, HTTPException, Query
+from fastapi.responses import JSONResponse
+from pydantic import BaseModel, Field
+from typing import Annotated
 import json
 app = FastAPI()
+
+class Customer (BaseModel):
+    id : Annotated[int, Field(...,description='ID of the customer', examples=[1,2,3])]
+    name : Annotated[str,Field(...,description='Name of the customer', min_length=5)]
+    amount : Annotated[int,Field(...,description='Total Loan Amount',gt=0)]
+    status : Annotated[str,Field(...,description='Status of the loan')]
+    city : Annotated[str,Field(...,description='City of the customer')]
 
 def getData():
     with open('test.json', 'r') as f:
         return json.load(f)
+
+def saveData(data):
+    with open('test.json','w') as f:
+        json.dump(data,f)
+
 
 @app.get('/')
 def hello():
@@ -49,3 +64,16 @@ def sort_customers(sort_by: str = Query(...,description='Sort on amount or id'),
     order = True if order_by=='desc' else False
     sorted_data = sorted(data, key= lambda x: x.get(sort_by,0), reverse= order)
     return sorted_data
+
+@app.post('/create')
+def create_customer(customer : Customer):
+    data = getData()
+
+    if any(item['id'] == customer.id for item in data ):
+        raise HTTPException(400,detail='Customer already exists')
+    
+    data.append(customer.model_dump())
+    
+    saveData(data)
+
+    return JSONResponse(status_code=201,content={'message':'Customer created Successfully'})
